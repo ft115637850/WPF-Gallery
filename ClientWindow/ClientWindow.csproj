@@ -95,6 +95,30 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Pic\Chrysanthemum.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Desert.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Hydrangeas.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Jellyfish.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Koala.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Lighthouse.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Penguins.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pic\Tulips.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WpfGallery\WpfGallery.csproj">
       <Project>{d524537c-57d9-4c7f-9a81-dcc30ca1b90d}</Project>
       <Name>WpfGallery</Name>

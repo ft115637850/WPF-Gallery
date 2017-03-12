@@ -84,16 +84,6 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Pic\Chrysanthemum.jpg" />
-    <Resource Include="Pic\Desert.jpg" />
-    <Resource Include="Pic\Hydrangeas.jpg" />
-    <Resource Include="Pic\Jellyfish.jpg" />
-    <Resource Include="Pic\Koala.jpg" />
-    <Resource Include="Pic\Lighthouse.jpg" />
-    <Resource Include="Pic\Penguins.jpg" />
-    <Resource Include="Pic\Tulips.jpg" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

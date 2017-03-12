@@ -10,7 +10,7 @@
                     <Grid>
                         <local:ImgPanel x:Name="PART_Pane1"  Height="500" Width="500" Panel.ZIndex="0" Position="Left" RenderTransformOrigin="0,0">
                             <Border SnapsToDevicePixels="True" BorderThickness="4" CornerRadius="5" Margin="20">
-                                <Image x:Name="PART_Pane1ImagePlaceholder" Source="..\Pic\Chrysanthemum.jpg"/>
+                                <Image x:Name="PART_Pane1ImagePlaceholder" />
                                 <Border.Effect>
                                     <DropShadowEffect x:Name="PART_Pane1border" Color="Black" BlurRadius="16" ShadowDepth="1" Opacity="1" />
                                 </Border.Effect>
@@ -23,7 +23,7 @@
                         </local:ImgPanel>
                         <local:ImgPanel x:Name="PART_Pane2" Height="500" Width="500" Panel.ZIndex="1" Position="Middle" RenderTransformOrigin="0,0">
                             <Border SnapsToDevicePixels="True" BorderThickness="4" CornerRadius="5" Margin="20">
-                                <Image x:Name="PART_Pane2ImagePlaceholder" Source="..\Pic\Hydrangeas.jpg" />
+                                <Image x:Name="PART_Pane2ImagePlaceholder" />
                                 <Border.Effect>
                                     <DropShadowEffect x:Name="PART_Pane2border" Color="Black" BlurRadius="16" ShadowDepth="1" Opacity="1" />
                                 </Border.Effect>
@@ -36,7 +36,7 @@
                         </local:ImgPanel>
                         <local:ImgPanel x:Name="PART_Pane3" Height="500" Width="500" Panel.ZIndex="-1" Position="Right" RenderTransformOrigin="0,0">
                             <Border SnapsToDevicePixels="True" BorderThickness="4" CornerRadius="5" Margin="20">
-                                <Image x:Name="PART_Pane3ImagePlaceholder" Source="..\Pic\Tulips.jpg" />
+                                <Image x:Name="PART_Pane3ImagePlaceholder" />
                                 <Border.Effect>
                                     <DropShadowEffect x:Name="PART_Pane3border" Color="Black" BlurRadius="16" ShadowDepth="1" Opacity="1" />
                                 </Border.Effect>

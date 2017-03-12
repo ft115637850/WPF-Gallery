@@ -4,6 +4,6 @@
         xmlns:my="clr-namespace:WpfGallery;assembly=WpfGallery"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <my:Gallery></my:Gallery>
+        <my:Gallery ImgsSrc="{Binding Path=MyImgsSrc, Mode=OneWay}"></my:Gallery>
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,15 +87,17 @@ namespace WpfGallery
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            var pane1 = GetTemplateChild("PART_Pane1") as ImgPanel;
-            var pane2 = GetTemplateChild("PART_Pane2") as ImgPanel;
-            var pane3 = GetTemplateChild("PART_Pane3") as ImgPanel;
+            var pane1 = this.GetTemplateChild("PART_Pane1") as ImgPanel;
+            var pane2 = this.GetTemplateChild("PART_Pane2") as ImgPanel;
+            var pane3 = this.GetTemplateChild("PART_Pane3") as ImgPanel;
             if (pane1 != null && pane2 != null && pane3 != null)
             {
-                //TO DO: Command
-                //pane1.MouseDown += ImagePlaceholder_MouseDown;
-                //pane2.MouseDown += ImagePlaceholder_MouseDown;
-                //pane3.MouseDown += ImagePlaceholder_MouseDown;
+                var img1 = pane1.FindName("PART_Pane1ImagePlaceholder") as Image;
+                var img2 = pane1.FindName("PART_Pane2ImagePlaceholder") as Image;
+                var img3 = pane1.FindName("PART_Pane3ImagePlaceholder") as Image;
+                ////img1.Source = this.ImgsSrc[0];
+                ////img2.Source = this.ImgsSrc[1];
+                ////img3.Source = this.ImgsSrc[2];
                 Panels = new List<ImgPanel>
                         {
                             pane1,
@@ -101,22 +105,7 @@ namespace WpfGallery
                             pane3
                         };
             }
-
-            //this.Unloaded += (s, a) => 
-            //{
-            //    pane1.MouseDown -= ImagePlaceholder_MouseDown;
-            //    pane2.MouseDown -= ImagePlaceholder_MouseDown;
-            //    pane3.MouseDown -= ImagePlaceholder_MouseDown;
-            //};
         }
-
-        //public void Dispose()
-        //{
-        //    foreach (var pane in Panels)
-        //    {
-        //        pane.MouseDown -= ImagePlaceholder_MouseDown;
-        //    }
-        //}
         #endregion
 
         #region Private Instance Methods
