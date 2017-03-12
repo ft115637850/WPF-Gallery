@@ -20,17 +20,17 @@ namespace ClientWindow
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
-            this.MyImgsSrc = new List<BitmapSource>()
-                    {
-                        new BitmapImage(new Uri("pack://application:,,,/Pic/Chrysanthemum.jpg", UriKind.Absolute)),
-                        new BitmapImage(new Uri("pack://application:,,,/Pic/Desert.jpg", UriKind.Absolute)),
-                        new BitmapImage(new Uri("pack://application:,,,/Pic/Hydrangeas.jpg", UriKind.Absolute))
-                    };
             InitializeComponent();
+            this.MyImgsSrc = new List<BitmapSource>()
+                {
+                    new BitmapImage(new Uri("pack://application:,,,/Pic/Chrysanthemum.jpg", UriKind.Absolute)),
+                    new BitmapImage(new Uri("pack://application:,,,/Pic/Desert.jpg", UriKind.Absolute)),
+                    new BitmapImage(new Uri("pack://application:,,,/Pic/Hydrangeas.jpg", UriKind.Absolute))
+                };
             this.DataContext = this;
         }
 
@@ -39,12 +39,5 @@ namespace ClientWindow
             get;
             set;
         }
-
-        internal void RaisePropertyChanged(string prop)
-        {
-            if (PropertyChanged != null) { PropertyChanged(this, new PropertyChangedEventArgs(prop)); }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -35,7 +35,7 @@ namespace WpfGallery
                             "ImgsSrc",
                             typeof(List<BitmapSource>),
                             typeof(Gallery),
-                            new FrameworkPropertyMetadata(new List<BitmapSource>(), new PropertyChangedCallback(OnImgsSrcChanged)));
+                            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnImgsSrcChanged)));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Gallery), new FrameworkPropertyMetadata(typeof(Gallery)));
         }
 
@@ -43,11 +43,17 @@ namespace WpfGallery
         {
             Gallery colorPicker = (Gallery)sender;
             colorPicker.ImgsSrc = (List<BitmapSource>)e.NewValue;
+            colorPicker.img1.Source = colorPicker.ImgsSrc[0];
+            colorPicker.img2.Source = colorPicker.ImgsSrc[1];
+            colorPicker.img3.Source = colorPicker.ImgsSrc[2];
         }
         #endregion
 
         #region Instance Fields
         private RelayCommand rotateCommand;
+        private Image img1;
+        private Image img2;
+        private Image img3;
         #endregion
 
         #region Instance Propertie
@@ -79,10 +85,10 @@ namespace WpfGallery
         #region Constructor
         public Gallery()
         {
-            this.DataContext = this;
+            ////this.DataContext = this;
         }
         #endregion
-
+        
         #region Public Instance Methods
         public override void OnApplyTemplate()
         {
@@ -92,12 +98,10 @@ namespace WpfGallery
             var pane3 = this.GetTemplateChild("PART_Pane3") as ImgPanel;
             if (pane1 != null && pane2 != null && pane3 != null)
             {
-                var img1 = pane1.FindName("PART_Pane1ImagePlaceholder") as Image;
-                var img2 = pane1.FindName("PART_Pane2ImagePlaceholder") as Image;
-                var img3 = pane1.FindName("PART_Pane3ImagePlaceholder") as Image;
-                ////img1.Source = this.ImgsSrc[0];
-                ////img2.Source = this.ImgsSrc[1];
-                ////img3.Source = this.ImgsSrc[2];
+                this.img1 = pane1.FindName("PART_Pane1ImagePlaceholder") as Image;
+                this.img2 = pane1.FindName("PART_Pane2ImagePlaceholder") as Image;
+                this.img3 = pane1.FindName("PART_Pane3ImagePlaceholder") as Image;
+                
                 Panels = new List<ImgPanel>
                         {
                             pane1,

@@ -17,7 +17,7 @@
                             </Border>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane1, Path=Position, Mode=OneWay}" />
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Gallery}}, Path=RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane1, Path=Position, Mode=OneWay}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </local:ImgPanel>
@@ -30,7 +30,7 @@
                             </Border>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane2, Path=Position, Mode=OneWay}" />
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Gallery}}, Path=RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane2, Path=Position, Mode=OneWay}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </local:ImgPanel>
@@ -43,7 +43,7 @@
                             </Border>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
-                                    <i:InvokeCommandAction Command="{Binding RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane3, Path=Position, Mode=OneWay}" />
+                                    <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Gallery}}, Path=RotateCommand}" CommandParameter="{Binding ElementName=PART_Pane3, Path=Position, Mode=OneWay}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </local:ImgPanel>

@@ -1,9 +1,10 @@
 ﻿<Window x:Class="ClientWindow.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:ClientWindow"
         xmlns:my="clr-namespace:WpfGallery;assembly=WpfGallery"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <my:Gallery ImgsSrc="{Binding Path=MyImgsSrc, Mode=OneWay}"></my:Gallery>
+        <my:Gallery ImgsSrc="{Binding MyImgsSrc}"></my:Gallery>
     </Grid>
 </Window>
