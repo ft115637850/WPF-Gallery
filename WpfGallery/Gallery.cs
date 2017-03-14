@@ -132,12 +132,7 @@ namespace WpfGallery
                     sb.Children.Add(animation);
                 }
 
-                if (panel.IsNewImageComing(true))
-                {
-                    var newImageIndex = (this.middleImageIndex + 2) % this.ImgsSrc.Count;
-                    panel.image.Source = this.ImgsSrc[newImageIndex];
-                    this.middleImageIndex = newImageIndex - 1;
-                }
+                this.ProcessNewComingImage(panel, true);
                 panel.ClockWiseNav();
             }
 
@@ -155,16 +150,32 @@ namespace WpfGallery
                     sb.Children.Add(animation);
                 }
 
-                if (panel.IsNewImageComing(false))
-                {
-                    var newImageIndex = (this.middleImageIndex - 2 + this.ImgsSrc.Count) % this.ImgsSrc.Count;
-                    panel.image.Source = this.ImgsSrc[newImageIndex];
-                    this.middleImageIndex = newImageIndex + 1;
-                }
+                this.ProcessNewComingImage(panel, false);
                 panel.AnticlockwiseNav();
             }
 
             sb.Begin(this);
+        }
+
+        private void ProcessNewComingImage(ImgPanel panel, bool isClockWise)
+        {
+            if (!panel.IsNewImageComing(isClockWise))
+            {
+                return;
+            }
+
+            if (isClockWise)
+            {
+                var newImageIndex = (this.middleImageIndex + 2) % this.ImgsSrc.Count;
+                panel.image.Source = this.ImgsSrc[newImageIndex];
+                this.middleImageIndex = newImageIndex - 1;
+            }
+            else
+            {
+                var newImageIndex = (this.middleImageIndex - 2 + this.ImgsSrc.Count) % this.ImgsSrc.Count;
+                panel.image.Source = this.ImgsSrc[newImageIndex];
+                this.middleImageIndex = newImageIndex + 1;
+            }
         }
 
         #endregion

@@ -35,28 +35,6 @@ namespace WpfGallery
         {
             ImgPanel panel = (ImgPanel)sender;
             panel.Position = (ImagePanelPosition)e.NewValue;
-            /*
-            switch (panel.Position)
-            {
-                case ImagePanelPosition.Left:
-                    panel.translate.X = -300;
-                    panel.translate.Y = -10;
-                    panel.scale.ScaleX = 0.7;
-                    panel.scale.ScaleY = 0.7;
-                    break;
-                case ImagePanelPosition.Middle:
-                    panel.translate.X = 1;
-                    panel.translate.Y = 1;
-                    panel.scale.ScaleX = 1;
-                    panel.scale.ScaleY = 1;
-                    break;
-                case ImagePanelPosition.Right:
-                    panel.translate.X = 500;
-                    panel.translate.Y = -10;
-                    panel.scale.ScaleX = 0.7;
-                    panel.scale.ScaleY = 0.7;
-                    break;
-            }*/
         }
 
         #endregion
@@ -68,6 +46,7 @@ namespace WpfGallery
         private DoubleAnimation scaleXAnimation;
         private DoubleAnimation scaleYAnimation;
         private DoubleAnimation borderAnimation;
+        private List<AnimationTimeline> animationList;
         #endregion
 
         #region Instance Propertie
@@ -131,25 +110,20 @@ namespace WpfGallery
             switch (this.Position)
             {
                 case ImagePanelPosition.Left:
-                    this.UpdateAnimationForNewRightComing();
+                    this.UpdateZIndexAnimationForNewComing();
+                    this.UpdatePositionAnimationForNewRightComing();
                     break;
                 case ImagePanelPosition.Middle:
-                    this.UpdateAnimationForMiddleToLeft();
+                    this.UpdateZIndexAnimationForGoBackwards();
+                    this.UpdatePostionAnimationForMiddleToLeft();
                     break;
                 case ImagePanelPosition.Right:
-                    this.UpdateAnimationForRightToMiddle();
+                    this.UpdateZIndexAnimationForGoForefront();
+                    this.UpdatePositionAnimationForRightToMiddle();
                     break;
             }
 
-            return new List<AnimationTimeline>() 
-            { 
-                this.zIndexAnimation,
-                this.translateXAnimation,
-                this.translateYAnimation,
-                this.scaleXAnimation,
-                this.scaleYAnimation,
-                this.borderAnimation
-            };
+            return this.animationList;
         }
         
         public List<AnimationTimeline> GetAnticlockwiseNavAnimations()
@@ -157,25 +131,20 @@ namespace WpfGallery
             switch (this.Position)
             {
                 case ImagePanelPosition.Left:
-                    this.UpdateAnimationForLeftToMiddle();
+                    this.UpdateZIndexAnimationForGoForefront();
+                    this.UpdatePositionAnimationForLeftToMiddle();
                     break;
                 case ImagePanelPosition.Middle:
-                    this.UpdateAnimationForMiddleToRight();
+                    this.UpdateZIndexAnimationForGoBackwards();
+                    this.UpdatePositionAnimationForMiddleToRight();
                     break;
                 case ImagePanelPosition.Right:
-                    this.UpdateAnimationForNewLeftComing();
+                    this.UpdateZIndexAnimationForNewComing();
+                    this.UpdatePositionAnimationForNewLeftComing();
                     break;
             }
 
-            return new List<AnimationTimeline>() 
-            { 
-                this.zIndexAnimation,
-                this.translateXAnimation,
-                this.translateYAnimation,
-                this.scaleXAnimation,
-                this.scaleYAnimation,
-                this.borderAnimation
-            };
+            return this.animationList;
         }
         #endregion
 
@@ -229,13 +198,22 @@ namespace WpfGallery
             this.borderAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
             Storyboard.SetTarget(this.borderAnimation, shadow);
             Storyboard.SetTargetProperty(this.borderAnimation, new PropertyPath(DropShadowEffect.ShadowDepthProperty));
- 
+
+            this.animationList = new List<AnimationTimeline>() 
+            { 
+                this.zIndexAnimation,
+                this.translateXAnimation,
+                this.translateYAnimation,
+                this.scaleXAnimation,
+                this.scaleYAnimation,
+                this.borderAnimation
+            };
         }
 
         #endregion     
 
         #region Private Methods
-        private void UpdateAnimationForNewRightComing()
+        private void UpdateZIndexAnimationForNewComing()
         {
             this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
                     {
@@ -243,140 +221,104 @@ namespace WpfGallery
                         new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = -1}
                     };
 
+            this.scaleXAnimation.From = 0.4;
+            this.scaleXAnimation.To = 0.7;
+
+            this.scaleYAnimation.From = 0.4;
+            this.scaleYAnimation.To = 0.7;
+
+            this.borderAnimation.From = 0;
+            this.borderAnimation.To = 1;
+        }
+
+        private void UpdateZIndexAnimationForGoBackwards()
+        {
+            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
+                    {
+                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = 1},
+                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 0}
+                    };
+
+            this.scaleXAnimation.From = 1;
+            this.scaleXAnimation.To = 0.7;
+
+            this.scaleYAnimation.From = 1;
+            this.scaleYAnimation.To = 0.7;
+
+            this.borderAnimation.From = 2;
+            this.borderAnimation.To = 1;
+        }
+
+        private void UpdateZIndexAnimationForGoForefront()
+        {
+            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
+                    {
+                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -1},
+                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 1}
+                    };
+
+            this.scaleXAnimation.From = 0.7;
+            this.scaleXAnimation.To = 1;
+
+            this.scaleYAnimation.From = 0.7;
+            this.scaleYAnimation.To = 1;
+
+            this.borderAnimation.From = 1;
+            this.borderAnimation.To = 2;
+        }
+
+        private void UpdatePositionAnimationForNewRightComing()
+        {
             this.translateXAnimation.From = 1000;
             this.translateXAnimation.To = 500;
 
             this.translateYAnimation.From = -100;
             this.translateYAnimation.To = -10;
+        }        
 
-            this.scaleXAnimation.From = 0.4;
-            this.scaleXAnimation.To = 0.7;
-
-            this.scaleYAnimation.From = 0.4;
-            this.scaleYAnimation.To = 0.7;
-
-            this.borderAnimation.From = 0;
-            this.borderAnimation.To = 1;
-        }
-
-        private void UpdateAnimationForMiddleToLeft()
+        private void UpdatePostionAnimationForMiddleToLeft()
         {
-            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
-                    {
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = 1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 0}
-                    };
-
             this.translateXAnimation.From = 0;
             this.translateXAnimation.To = -300;
 
             this.translateYAnimation.From = 0;
             this.translateYAnimation.To = -10;
-
-            this.scaleXAnimation.From = 1;
-            this.scaleXAnimation.To = 0.7;
-
-            this.scaleYAnimation.From = 1;
-            this.scaleYAnimation.To = 0.7;
-
-            this.borderAnimation.From = 2;
-            this.borderAnimation.To = 1;
         }
-
-        private void UpdateAnimationForRightToMiddle()
+        
+        private void UpdatePositionAnimationForRightToMiddle()
         {
-            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
-                    {
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 1}
-                    };
-
             this.translateXAnimation.From = 500;
             this.translateXAnimation.To = 0;
 
             this.translateYAnimation.From = -10;
             this.translateYAnimation.To = 0;
-
-            this.scaleXAnimation.From = 0.7;
-            this.scaleXAnimation.To = 1;
-
-            this.scaleYAnimation.From = 0.7;
-            this.scaleYAnimation.To = 1;
-
-            this.borderAnimation.From = 1;
-            this.borderAnimation.To = 2;
         }
 
-        private void UpdateAnimationForLeftToMiddle()
+        private void UpdatePositionAnimationForLeftToMiddle()
         {
-            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
-                    {
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 1}
-                    };
-
             this.translateXAnimation.From = -300;
             this.translateXAnimation.To = 0;
 
             this.translateYAnimation.From = -10;
             this.translateYAnimation.To = 0;
-
-            this.scaleXAnimation.From = 0.7;
-            this.scaleXAnimation.To = 1;
-
-            this.scaleYAnimation.From = 0.7;
-            this.scaleYAnimation.To = 1;
-
-            this.borderAnimation.From = 1;
-            this.borderAnimation.To = 2;
         }
 
-        private void UpdateAnimationForMiddleToRight()
+        private void UpdatePositionAnimationForMiddleToRight()
         {
-            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
-                    {
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = 1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 0}
-                    };
-
             this.translateXAnimation.From = 0;
             this.translateXAnimation.To = 500;
 
             this.translateYAnimation.From = 0;
             this.translateYAnimation.To = -10;
-
-            this.scaleXAnimation.From = 1;
-            this.scaleXAnimation.To = 0.7;
-
-            this.scaleYAnimation.From = 1;
-            this.scaleYAnimation.To = 0.7;
-
-            this.borderAnimation.From = 2;
-            this.borderAnimation.To = 1;
         }
 
-        private void UpdateAnimationForNewLeftComing()
+        private void UpdatePositionAnimationForNewLeftComing()
         {
-            this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
-                    {
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -2},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = -1}
-                    };
-
             this.translateXAnimation.From = -500;
             this.translateXAnimation.To = -300;
 
             this.translateYAnimation.From = -50;
             this.translateYAnimation.To = -10;
-
-            this.scaleXAnimation.From = 0.4;
-            this.scaleXAnimation.To = 0.7;
-
-            this.scaleYAnimation.From = 0.4;
-            this.scaleYAnimation.To = 0.7;
-
-            this.borderAnimation.From = 0;
-            this.borderAnimation.To = 1;
         }
         #endregion
     }
