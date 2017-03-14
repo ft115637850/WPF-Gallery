@@ -4,7 +4,7 @@
         xmlns:vm="clr-namespace:ClientWindow"
         xmlns:my="clr-namespace:WpfGallery;assembly=WpfGallery"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <my:Gallery ImgsSrc="{Binding MyImgsSrc}"></my:Gallery>
+    <Grid Background="Black">
+        <my:Gallery ImgsSrc="{Binding MyImgsSrc}" IsCircular="True"></my:Gallery>
     </Grid>
 </Window>

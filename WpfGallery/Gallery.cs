@@ -28,6 +28,7 @@ namespace WpfGallery
     {
         #region Static Fields
         public static DependencyProperty ImgsSrcProperty;
+        public static DependencyProperty IsCircularProperty;
 
         static Gallery()
         {
@@ -36,6 +37,11 @@ namespace WpfGallery
                             typeof(List<BitmapSource>),
                             typeof(Gallery),
                             new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnImgsSrcChanged)));
+            IsCircularProperty = DependencyProperty.Register(
+                            "IsCircular",
+                            typeof(bool),
+                            typeof(Gallery),
+                            new FrameworkPropertyMetadata(false, null));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Gallery), new FrameworkPropertyMetadata(typeof(Gallery)));
         }
 
@@ -43,9 +49,20 @@ namespace WpfGallery
         {
             Gallery gallery = (Gallery)sender;
             gallery.ImgsSrc = (List<BitmapSource>)e.NewValue;
+            if (gallery.ImgsSrc.Count < 2)
+                return;
+
             gallery.Panels[0].image.Source = gallery.ImgsSrc[0];
             gallery.Panels[1].image.Source = gallery.ImgsSrc[1];
-            gallery.Panels[2].image.Source = gallery.ImgsSrc[2];
+
+            if (gallery.ImgsSrc.Count > 2)
+            {
+                gallery.Panels[2].image.Source = gallery.ImgsSrc[2];
+            }
+            else
+            {
+                gallery.IsCircular = false;
+            }
         }
         #endregion
 
@@ -59,6 +76,12 @@ namespace WpfGallery
         {
             get { return (List<BitmapSource>)GetValue(ImgsSrcProperty); }
             set { SetValue(ImgsSrcProperty, value); }
+        }
+
+        public bool IsCircular
+        {
+            get { return (bool)GetValue(IsCircularProperty); }
+            set { SetValue(IsCircularProperty, value); }
         }
 
         internal List<ImgPanel> Panels
@@ -164,17 +187,49 @@ namespace WpfGallery
                 return;
             }
 
-            if (isClockWise)
+            if (this.IsCircular)
             {
-                var newImageIndex = (this.middleImageIndex + 2) % this.ImgsSrc.Count;
-                panel.image.Source = this.ImgsSrc[newImageIndex];
-                this.middleImageIndex = newImageIndex - 1;
+                if (isClockWise)
+                {
+                    var newImageIndex = (this.middleImageIndex + 2) % this.ImgsSrc.Count;
+                    panel.image.Source = this.ImgsSrc[newImageIndex];
+                    this.middleImageIndex = newImageIndex - 1;
+                }
+                else
+                {
+                    var newImageIndex = (this.middleImageIndex - 2 + this.ImgsSrc.Count) % this.ImgsSrc.Count;
+                    panel.image.Source = this.ImgsSrc[newImageIndex];
+                    this.middleImageIndex = newImageIndex + 1;
+                }
             }
             else
             {
-                var newImageIndex = (this.middleImageIndex - 2 + this.ImgsSrc.Count) % this.ImgsSrc.Count;
-                panel.image.Source = this.ImgsSrc[newImageIndex];
-                this.middleImageIndex = newImageIndex + 1;
+                if (isClockWise)
+                {
+                    var newImageIndex = this.middleImageIndex + 2;
+                    if (newImageIndex < this.ImgsSrc.Count)
+                    {
+                        panel.image.Source = this.ImgsSrc[newImageIndex];
+                    }
+                    else
+                    {
+                        panel.image.Source = null;
+                    }
+                    this.middleImageIndex = newImageIndex - 1;
+                }
+                else
+                {
+                    var newImageIndex = this.middleImageIndex - 2;
+                    if (newImageIndex > 0)
+                    {
+                        panel.image.Source = this.ImgsSrc[newImageIndex];
+                    }
+                    else
+                    {
+                        panel.image.Source = null;
+                    }
+                    this.middleImageIndex = newImageIndex + 1;
+                }
             }
         }
 
