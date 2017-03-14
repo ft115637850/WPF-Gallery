@@ -31,10 +31,10 @@ namespace ClientWindow
                     new BitmapImage(new Uri("pack://application:,,,/Pic/Desert.jpg", UriKind.Absolute)),
                     new BitmapImage(new Uri("pack://application:,,,/Pic/Hydrangeas.jpg", UriKind.Absolute)),
                     new BitmapImage(new Uri("pack://application:,,,/Pic/Jellyfish.jpg", UriKind.Absolute)),
-                    new BitmapImage(new Uri("pack://application:,,,/Pic/Koala.jpg", UriKind.Absolute)),
-                    new BitmapImage(new Uri("pack://application:,,,/Pic/Lighthouse.jpg", UriKind.Absolute)),
-                    new BitmapImage(new Uri("pack://application:,,,/Pic/Penguins.jpg", UriKind.Absolute)),
-                    new BitmapImage(new Uri("pack://application:,,,/Pic/Tulips.jpg", UriKind.Absolute))
+                    //new BitmapImage(new Uri("pack://application:,,,/Pic/Koala.jpg", UriKind.Absolute)),
+                    //new BitmapImage(new Uri("pack://application:,,,/Pic/Lighthouse.jpg", UriKind.Absolute)),
+                    //new BitmapImage(new Uri("pack://application:,,,/Pic/Penguins.jpg", UriKind.Absolute)),
+                    //new BitmapImage(new Uri("pack://application:,,,/Pic/Tulips.jpg", UriKind.Absolute))
                 };
             this.DataContext = this;
         }

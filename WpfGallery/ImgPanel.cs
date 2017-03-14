@@ -274,7 +274,7 @@ namespace WpfGallery
 
         private void UpdatePositionAnimationForNewRightComing()
         {
-            this.translateXAnimation.From = 1000;
+            this.translateXAnimation.From = 1500;
             this.translateXAnimation.To = 500;
 
             this.translateYAnimation.From = -100;
