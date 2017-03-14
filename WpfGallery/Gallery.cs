@@ -27,6 +27,7 @@ namespace WpfGallery
     public class Gallery : Control
     {
         #region Static Fields
+        public static DependencyProperty RotationDurationProperty;
         public static DependencyProperty ImgsSrcProperty;
         public static DependencyProperty IsCircularProperty;
 
@@ -42,6 +43,11 @@ namespace WpfGallery
                             typeof(bool),
                             typeof(Gallery),
                             new FrameworkPropertyMetadata(false, null));
+            RotationDurationProperty = DependencyProperty.Register(
+                           "RotationDuration",
+                           typeof(TimeSpan),
+                           typeof(ImgPanel),
+                           new FrameworkPropertyMetadata(TimeSpan.FromSeconds(0.5), null));
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Gallery), new FrameworkPropertyMetadata(typeof(Gallery)));
         }
 
@@ -82,6 +88,12 @@ namespace WpfGallery
         {
             get { return (bool)GetValue(IsCircularProperty); }
             set { SetValue(IsCircularProperty, value); }
+        }
+
+        public TimeSpan RotationDuration
+        {
+            get { return (TimeSpan)GetValue(RotationDurationProperty); }
+            set { SetValue(RotationDurationProperty, value); }
         }
 
         internal List<ImgPanel> Panels

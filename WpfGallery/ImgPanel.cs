@@ -21,6 +21,7 @@ namespace WpfGallery
     internal class ImgPanel : DockPanel
     {
         #region Static Fields
+        public static DependencyProperty AnimationDurationProperty;
         public static DependencyProperty PositionProperty;
         static ImgPanel()
         {
@@ -28,15 +29,13 @@ namespace WpfGallery
                             "Position",
                             typeof(ImagePanelPosition),
                             typeof(ImgPanel),
-                            new FrameworkPropertyMetadata(ImagePanelPosition.Middle, new PropertyChangedCallback(OnPositionChanged)));
+                            null);
+            AnimationDurationProperty = DependencyProperty.Register(
+                            "AnimationDuration",
+                            typeof(TimeSpan),
+                            typeof(ImgPanel),
+                            new FrameworkPropertyMetadata(TimeSpan.FromSeconds(0.5), null));
         }
-
-        private static void OnPositionChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            ImgPanel panel = (ImgPanel)sender;
-            panel.Position = (ImagePanelPosition)e.NewValue;
-        }
-
         #endregion
 
         #region Instance Fields
@@ -54,6 +53,12 @@ namespace WpfGallery
         {
             get { return (ImagePanelPosition)GetValue(PositionProperty); }
             set { SetValue(PositionProperty, value); }
+        }
+
+        public TimeSpan AnimationDuration
+        {
+            get { return (TimeSpan)GetValue(AnimationDurationProperty); }
+            set { SetValue(AnimationDurationProperty, value); }
         }
 
         public Image image { get; set; }
@@ -174,28 +179,28 @@ namespace WpfGallery
             Storyboard.SetTargetProperty(this.zIndexAnimation, new PropertyPath(ImgPanel.ZIndexProperty));
 
             this.translateXAnimation = new DoubleAnimation();
-            this.translateXAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            this.translateXAnimation.Duration = new Duration(this.AnimationDuration);
             Storyboard.SetTarget(this.translateXAnimation, this);
             Storyboard.SetTargetProperty(this.translateXAnimation, new PropertyPath("RenderTransform.Children[0].X"));
 
             this.translateYAnimation = new DoubleAnimation();
-            this.translateYAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            this.translateYAnimation.Duration = new Duration(this.AnimationDuration);
             Storyboard.SetTarget(this.translateYAnimation, this);
             Storyboard.SetTargetProperty(this.translateYAnimation, new PropertyPath("RenderTransform.Children[0].Y"));
 
             this.scaleXAnimation = new DoubleAnimation();
-            this.scaleXAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            this.scaleXAnimation.Duration = new Duration(this.AnimationDuration);
             Storyboard.SetTarget(this.scaleXAnimation, this);
             Storyboard.SetTargetProperty(this.scaleXAnimation, new PropertyPath("RenderTransform.Children[1].ScaleX"));
 
             this.scaleYAnimation = new DoubleAnimation();
-            this.scaleYAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            this.scaleYAnimation.Duration = new Duration(this.AnimationDuration);
             Storyboard.SetTarget(this.scaleYAnimation, this);
             Storyboard.SetTargetProperty(this.scaleYAnimation, new PropertyPath("RenderTransform.Children[1].ScaleY"));
 
             var shadow = this.FindName(this.Name + "border") as DropShadowEffect;
             this.borderAnimation = new DoubleAnimation();
-            this.borderAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
+            this.borderAnimation.Duration = new Duration(this.AnimationDuration);
             Storyboard.SetTarget(this.borderAnimation, shadow);
             Storyboard.SetTargetProperty(this.borderAnimation, new PropertyPath(DropShadowEffect.ShadowDepthProperty));
 
@@ -218,7 +223,7 @@ namespace WpfGallery
             this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
                     {
                         new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -2},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = -1}
+                        new SplineInt32KeyFrame(){ KeyTime = this.AnimationDuration, Value = -1}
                     };
 
             this.scaleXAnimation.From = 0.4;
@@ -236,7 +241,7 @@ namespace WpfGallery
             this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
                     {
                         new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = 1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 0}
+                        new SplineInt32KeyFrame(){ KeyTime = this.AnimationDuration, Value = 0}
                     };
 
             this.scaleXAnimation.From = 1;
@@ -254,7 +259,7 @@ namespace WpfGallery
             this.zIndexAnimation.KeyFrames = new Int32KeyFrameCollection 
                     {
                         new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0), Value = -1},
-                        new SplineInt32KeyFrame(){ KeyTime = TimeSpan.FromSeconds(0.8), Value = 1}
+                        new SplineInt32KeyFrame(){ KeyTime = this.AnimationDuration, Value = 1}
                     };
 
             this.scaleXAnimation.From = 0.7;
