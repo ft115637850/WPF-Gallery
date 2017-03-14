@@ -77,6 +77,8 @@ namespace WpfGallery
             set { SetValue(PositionProperty, value); }
         }
 
+        public Image image { get; set; }
+
         #endregion
 
         #region Public Instance Methods
@@ -109,6 +111,18 @@ namespace WpfGallery
                 case ImagePanelPosition.Right:
                     this.Position = ImagePanelPosition.Left;
                     break;
+            }
+        }
+
+        public bool IsNewImageComing(bool isClockWise)
+        {
+            if ((isClockWise && this.Position == ImagePanelPosition.Left) || (!isClockWise && this.Position == ImagePanelPosition.Right))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         

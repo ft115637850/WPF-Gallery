@@ -41,19 +41,17 @@ namespace WpfGallery
 
         private static void OnImgsSrcChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            Gallery colorPicker = (Gallery)sender;
-            colorPicker.ImgsSrc = (List<BitmapSource>)e.NewValue;
-            colorPicker.img1.Source = colorPicker.ImgsSrc[0];
-            colorPicker.img2.Source = colorPicker.ImgsSrc[1];
-            colorPicker.img3.Source = colorPicker.ImgsSrc[2];
+            Gallery gallery = (Gallery)sender;
+            gallery.ImgsSrc = (List<BitmapSource>)e.NewValue;
+            gallery.Panels[0].image.Source = gallery.ImgsSrc[0];
+            gallery.Panels[1].image.Source = gallery.ImgsSrc[1];
+            gallery.Panels[2].image.Source = gallery.ImgsSrc[2];
         }
         #endregion
 
         #region Instance Fields
         private RelayCommand rotateCommand;
-        private Image img1;
-        private Image img2;
-        private Image img3;
+        private int middleImageIndex = 1;
         #endregion
 
         #region Instance Propertie
@@ -81,13 +79,6 @@ namespace WpfGallery
             }
         }
         #endregion
-
-        #region Constructor
-        public Gallery()
-        {
-            ////this.DataContext = this;
-        }
-        #endregion
         
         #region Public Instance Methods
         public override void OnApplyTemplate()
@@ -98,9 +89,9 @@ namespace WpfGallery
             var pane3 = this.GetTemplateChild("PART_Pane3") as ImgPanel;
             if (pane1 != null && pane2 != null && pane3 != null)
             {
-                this.img1 = pane1.FindName("PART_Pane1ImagePlaceholder") as Image;
-                this.img2 = pane1.FindName("PART_Pane2ImagePlaceholder") as Image;
-                this.img3 = pane1.FindName("PART_Pane3ImagePlaceholder") as Image;
+                pane1.image = pane1.FindName("PART_Pane1ImagePlaceholder") as Image;
+                pane2.image = pane1.FindName("PART_Pane2ImagePlaceholder") as Image;
+                pane3.image = pane1.FindName("PART_Pane3ImagePlaceholder") as Image;
                 
                 Panels = new List<ImgPanel>
                         {
@@ -141,6 +132,12 @@ namespace WpfGallery
                     sb.Children.Add(animation);
                 }
 
+                if (panel.IsNewImageComing(true))
+                {
+                    var newImageIndex = (this.middleImageIndex + 2) % this.ImgsSrc.Count;
+                    panel.image.Source = this.ImgsSrc[newImageIndex];
+                    this.middleImageIndex = newImageIndex - 1;
+                }
                 panel.ClockWiseNav();
             }
 
@@ -158,6 +155,12 @@ namespace WpfGallery
                     sb.Children.Add(animation);
                 }
 
+                if (panel.IsNewImageComing(false))
+                {
+                    var newImageIndex = (this.middleImageIndex - 2 + this.ImgsSrc.Count) % this.ImgsSrc.Count;
+                    panel.image.Source = this.ImgsSrc[newImageIndex];
+                    this.middleImageIndex = newImageIndex + 1;
+                }
                 panel.AnticlockwiseNav();
             }
 
