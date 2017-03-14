@@ -48,6 +48,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WidthConverter.cs" />
+    <Compile Include="HeightConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Page Include="Themes\Gallery.xaml">
       <Generator>MSBuild:Compile</Generator>
